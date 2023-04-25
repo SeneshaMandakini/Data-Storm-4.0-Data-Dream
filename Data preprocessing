@@ -1,0 +1,60 @@
+# Improt the basic libraries
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+from numpy import loadtxt
+#for dirname, _, filenames in os.walk('/kaggle/input'):
+    #for filename in filenames:
+       # print(os.path.join(dirname, filename))
+
+# Load historical data set to df
+df = pd.read_csv('/kaggle/input/data-storm-4/Historical-transaction-data.csv')
+
+#determine the shape of data set
+df.shape
+
+#check first five rows
+df.head()
+
+#identify the dataset
+df.describe
+
+#info of dataset
+df.info()
+
+#check the null values
+df.isnull()
+
+#check the summary of null values
+df.isnull().sum()
+
+#Using heatmap for better visualization
+sns.heatmap(df.isnull(), yticklabels=False, cbar=False, cmap='viridis')
+
+#drop the coulmns with null values
+df.drop(columns=["item_description","invoice_id"], inplace=True)
+
+#Using heatmap for better visualization - after the removing coulmns with null values
+sns.heatmap(df.isnull(), yticklabels=False, cbar=False, cmap='viridis')
+
+#Using boxplot for item_price
+sns.boxplot(x=df["item_price"])
+
+#identify the rows which are item_price are greater than 7500
+index_item_price = df[ (df['item_price'] > 7500)].index
+
+#drop the rows with outliers
+df.drop(index_item_price,inplace=True)
+
+#check the shape - after the removing outliers values
+df.shape
+
+#Using boxplot for quantity_sold
+sns.boxplot(x=df["quantity_sold"])
+
+#check the duplicated values
+df.duplicated()
+
